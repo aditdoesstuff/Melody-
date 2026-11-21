@@ -1,3 +1,5 @@
+import type { Swatch } from "./types";
+
 // Real colour extraction in the browser: downscale, quantise, rank by frequency, de-duplicate similar hues.
 export function extractPalette(src: string, count = 4): Promise<string[]> {
   return new Promise((resolve) => {
@@ -66,4 +68,33 @@ export function colourName(hex: string): string {
   if (h < 260) return l > 0.65 ? "sky" : "navy";
   if (h < 300) return "lavender";
   return "rose";
+}
+
+
+export const swatch = (hex: string): Swatch => ({ hex: hex.toLowerCase(), name: colourName(hex) });
+export const isHex = (s: string) => /^#?[0-9a-fA-F]{6}$/.test(s.trim());
+export const normHex = (s: string) => ("#" + s.trim().replace(/^#/, "")).toLowerCase();
+
+/** Soft gradient tile used wherever a card has colours but no image. */
+export function gradientFor(hexes: string[]): string {
+  const a = hexes[0] ?? "#3a2a26", b = hexes[1] ?? a, c = hexes[2] ?? b;
+  return `radial-gradient(circle at 25% 20%, ${b}, transparent 60%), linear-gradient(135deg, ${a}, ${c})`;
+}
+
+/** Readable text colour (cream or near-black) for a given background. */
+export function inkOn(hex: string): string {
+  const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+  return (r * 299 + g * 587 + b * 114) / 1000 > 150 ? "#151b1b" : "#f4efe4";
+}
+
+const PRETTY: Record<string, string[]> = {
+  ivory: ["Ivory", "Rice paper", "Jasmine"], black: ["Kohl", "Ink"], cream: ["Sand", "Oat", "Khadi"], charcoal: ["Slate", "Smoke"],
+  blush: ["Blush", "Rose milk"], red: ["Sindoor", "Wine"], peach: ["Peach", "Apricot"], terracotta: ["Terracotta", "Clay"],
+  butter: ["Butter", "Haldi"], marigold: ["Marigold", "Genda"], sage: ["Sage", "Tulsi"], green: ["Leaf", "Mehendi"],
+  teal: ["Teal", "Peacock"], sky: ["Sky", "Monsoon"], navy: ["Midnight", "Indigo"], lavender: ["Lavender", "Jacaranda"], rose: ["Rose", "Gulab"],
+};
+/** A friendlier display name for a swatch in the Identity Guide. Deterministic per hex. */
+export function prettyName(hex: string): string {
+  const list = PRETTY[colourName(hex)] ?? ["Tone"];
+  return list[parseInt(hex.slice(1, 3), 16) % list.length];
 }
