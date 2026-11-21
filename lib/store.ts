@@ -10,6 +10,7 @@ import { DEFAULT_GROUPS, DEMO_CONTACTS, demoCards, sampleCards } from "./seed";
 import { DEFAULT_MESSAGE } from "./services/invite";
 import { partner } from "./services/partner";
 import { delBlob } from "./blobs";
+import { prettyDate } from "./format";
 
 export interface Profile { weddingType: WeddingType; role: Role; names: [string, string]; date: string; location: string }
 
@@ -92,7 +93,7 @@ const initial: Data = {
 
 function starterInvites(p: Profile): Invite[] {
   const names = p.names.filter((n) => n && n !== "You" && n !== "Partner").join(" & ");
-  const fields = { names: names || "", date: p.date, venue: p.location, rsvp: "" };
+  const fields = { names: names || "", date: prettyDate(p.date), venue: p.location, rsvp: "" };
   return [
     { id: "inv-engagement", title: "Engagement Invite", templateId: "lotus", groups: ["Family", "Elders"], message: DEFAULT_MESSAGE.en.replace("getting married", "getting engaged"), lang: "en", fields, status: {} },
     { id: "inv-wedding", title: "Wedding Invite", templateId: "jaali", groups: [...DEFAULT_GROUPS], message: DEFAULT_MESSAGE.en, lang: "en", fields, status: {} },

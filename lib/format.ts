@@ -29,3 +29,9 @@ export function hash(s: string): number {
   return h >>> 0;
 }
 export const cap = (s: string) => (s ? s[0].toUpperCase() + s.slice(1) : s);
+/** "2026-11-19" -> "19 November 2026". Anything unparseable is returned as typed. */
+export function prettyDate(iso: string): string {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(iso)) return iso;
+  const d = new Date(iso + "T00:00:00");
+  return Number.isNaN(d.getTime()) ? iso : d.toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
+}

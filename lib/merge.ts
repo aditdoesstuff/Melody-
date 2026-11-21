@@ -50,7 +50,7 @@ export function themeSplit(theme: Theme, cards: Card[]) {
   const mine = cards.filter((c) => theme.cardIds.includes(c.id));
   const a = mine.filter((c) => c.addedBy === "A").length, b = mine.filter((c) => c.addedBy === "B").length, family = mine.filter((c) => c.addedBy === "family").length;
   const couple = a + b;
-  const kind: "both" | "A" | "B" | "family" = !couple ? "family" : a / couple >= 0.25 && b / couple >= 0.25 ? "both" : a > b ? "A" : "B";
+  const kind: "both" | "A" | "B" | "family" = family > couple ? "family" : a / couple >= 0.25 && b / couple >= 0.25 ? "both" : a > b ? "A" : "B";
   return { a, b, family, kind };
 }
 
@@ -59,6 +59,7 @@ export function familyConflicts(cards: Card[]) {
   const couple = cards.filter((c) => c.addedBy !== "family" && c.identityVote !== "no");
   const fam = cards.filter((c) => c.addedBy === "family");
   const coupleTags = new Set(couple.flatMap((c) => c.tags.themes));
-  const aligned = fam.filter((c) => c.tags.themes.some((t) => coupleTags.has(t)));
+  // Aligned = most of what the idea is about already shows up in what the couple saved.
+  const aligned = fam.filter((c) => c.tags.themes.length > 0 && c.tags.themes.filter((t) => coupleTags.has(t)).length / c.tags.themes.length > 0.5);
   return { aligned, diverging: fam.filter((c) => !aligned.includes(c)) };
 }
