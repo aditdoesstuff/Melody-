@@ -137,7 +137,7 @@ function Merged({ cats }: { cats: BudgetCategory[] }) {
         <p className="flex-1">{gaps ? `${gaps} ${gaps === 1 ? "category is" : "categories are"} four or more places apart. Worth a conversation.` : "No big disagreements. You are ranking almost the same wedding."}</p>
         {s.mergedOrder && <button className="btn btn-sm" onClick={() => { s.setMergedOrder(null); toast("Back to the meet-in-the-middle order."); }}>Reset to meet in the middle</button>}
       </div>
-      <div className="scroll-x">
+      <div className="relative scroll-x">
         <table className="w-full text-left min-w-[520px]">
           <thead><tr className="eyebrow"><th className="py-2 pr-2 font-medium">Merged</th><th className="py-2 font-medium">Category</th><th className="py-2 px-2 font-medium text-center">{s.names[0]}</th><th className="py-2 px-2 font-medium text-center">{s.names[1]}</th><th className="py-2 font-medium"><span className="sr-only">Reorder</span></th></tr></thead>
           <tbody>

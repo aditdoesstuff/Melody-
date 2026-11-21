@@ -112,7 +112,7 @@ export default function Guests() {
       {s.contacts.length === 0 ? (
         <div className="card card-tan p-8 text-center mt-4"><p className="h-serif text-3xl">No guests yet.</p><p className="text-muted mt-2">Upload a CSV or vCard, paste a list, or add people one at a time.</p></div>
       ) : (
-        <div className="scroll-x mt-3">
+        <div className="relative scroll-x mt-3">
           <table className="w-full text-left min-w-[760px] text-sm">
             <thead>
               <tr className="eyebrow border-b border-line">

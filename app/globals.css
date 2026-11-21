@@ -125,7 +125,7 @@ body {
   .skeleton { background: rgba(232, 226, 209, 0.07); border-radius: 16px; position: relative; overflow: hidden; }
   .skeleton::after { content: ""; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent, rgba(255, 227, 200, 0.1), transparent); animation: shimmer 1.4s infinite; }
 
-  .scroll-x { overflow-x: auto; scrollbar-width: thin; scrollbar-color: var(--tan) transparent; }
+  .scroll-x { position: relative; overflow-x: auto; scrollbar-width: thin; scrollbar-color: var(--tan) transparent; }
   .masonry { column-gap: 12px; columns: 2; }
   @media (min-width: 768px) { .masonry { columns: 3; } }
   @media (min-width: 1200px) { .masonry { columns: 4; } }

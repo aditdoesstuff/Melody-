@@ -138,7 +138,7 @@ export default function Space() {
           </div>
           <button className={`btn shrink-0 ${selecting ? "btn-cream" : ""}`} aria-pressed={selecting} onClick={() => (selecting ? endSelect() : setSelecting(true))}>{selecting ? "Done" : "Select"}</button>
         </div>
-        <div className="flex items-center gap-2 scroll-x pb-1">
+        <div className="relative flex items-center gap-2 scroll-x pb-1">
           <Pick label="Type" value={type} onChange={(v) => setType(v as CardType | "")} options={opts.types.map((t) => [t, TYPE_LABEL[t]])} />
           <Pick label="Source" value={source} onChange={(v) => setSource(v as Source | "")} options={opts.sources.map((s) => [s, s])} />
           <Pick label="Category" value={category} onChange={(v) => setCategory(v as Category | "")} options={opts.categories.map((c) => [c, c])} />

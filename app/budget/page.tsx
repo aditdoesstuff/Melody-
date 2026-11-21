@@ -89,7 +89,7 @@ export default function BudgetPage() {
         </section>
 
         <div className="grid lg:grid-cols-[1fr_340px] gap-4 mt-4 items-start">
-          <ul className="space-y-2" aria-label="Budget by category">
+          <ul className="space-y-2 min-w-0" aria-label="Budget by category">
             {a.rows.map((r) => {
               const cat = cats.find((x) => x.id === r.id);
               const locked = budget.locked.includes(r.id);
@@ -98,7 +98,7 @@ export default function BudgetPage() {
                   <div className="flex items-center gap-3">
                     <span className="size-9 rounded-full grid place-items-center shrink-0" style={{ background: colour(r.id), color: "#151b1b" }}><CatIcon name={cat?.icon ?? "Star"} size={17} /></span>
                     <div className="flex-1 min-w-0"><p className="font-medium truncate">{name(r.id)}</p><p className="text-xs text-muted">Ranked #{order.indexOf(r.id) + 1}</p></div>
-                    <p className="text-right"><span className="h-serif text-xl block tabular-nums">{money(r.amount, c)}</span><span className="text-xs text-muted tabular-nums">{r.pct.toFixed(1)}% of total</span></p>
+                    <p className="text-right shrink-0"><span className="h-serif text-lg md:text-xl block tabular-nums">{money(r.amount, c)}</span><span className="text-xs text-muted tabular-nums">{r.pct.toFixed(1)}% of total</span></p>
                     <button className={`btn btn-icon btn-ghost ${locked ? "!text-peach" : "text-muted"}`} aria-pressed={locked} aria-label={locked ? `Unlock ${name(r.id)}` : `Lock ${name(r.id)} at this amount`} onClick={() => s.toggleLock(r.id)}>{locked ? <Lock size={17} aria-hidden /> : <LockOpen size={17} aria-hidden />}</button>
                   </div>
                   <div className="h-2 rounded-full bg-white/8 overflow-hidden mt-3" aria-hidden><motion.div className="h-full rounded-full" style={{ background: colour(r.id) }} initial={false} animate={{ width: `${Math.min(100, (r.weight / Math.max(...a.rows.map((x) => x.weight), 1)) * 100)}%` }} transition={{ type: "spring", stiffness: 220, damping: 30 }} /></div>
